@@ -1,0 +1,8 @@
+.gitignore
+.vscode
+*.o
+*/*.o
+*/*.a
+*/*/*.o
+*/*/*.a
+pipex
