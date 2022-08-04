@@ -6,13 +6,14 @@
 #    By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/02 22:13:13 by jadithya          #+#    #+#              #
-#    Updated: 2022/08/04 21:08:03 by jadithya         ###   ########.fr        #
+#    Updated: 2022/08/05 02:03:47 by jadithya         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pipex
 
-SRCS = pipex.c
+SRCS = pipex.c\
+		parsing.c
 
 CC = gcc
 
@@ -20,15 +21,14 @@ CFLAGS = -Wall -Wextra -Werror
 
 OBJS = $(SRCS:.c=.o)
 
-LIB = libft/libft.a\
-		printf/libftprintf.a
+LIB = printf/libftprintf.a
 
 %.o: %.c
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(NAME): $(OBJS)
 	make -C printf
-	gcc $(OBJS) -o $(NAME) $(CFLAGS)
+	gcc $(OBJS) -o $(NAME) $(CFLAGS) $(LIB)
 
 bonus: 
 
