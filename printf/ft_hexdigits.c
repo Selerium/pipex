@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_hexdigits.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/04 17:12:56 by jadithya          #+#    #+#             */
-/*   Updated: 2022/08/04 20:48:33 by jadithya         ###   ########.fr       */
+/*   Created: 2022/06/29 23:10:52 by jadithya          #+#    #+#             */
+/*   Updated: 2022/07/06 16:40:25 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"pipex.h"
+#include"libftprintf.h"
 
-void	ft_printexit(void)
+int	ft_hexdigits(unsigned int n)
 {
-	ft_printf("Insufficient number of arguments. Exiting.");
-	exit(0);
-}
+	int	i;
 
-int	main(int argc, char **argv, char **env)
-{
-	if (argc < 5)
-		ft_printexit();
-	return (0);
+	i = 0;
+	if (n == 0)
+		return (1);
+	while (n > 0)
+	{
+		n /= 16;
+		i++;
+	}
+	return (i);
 }

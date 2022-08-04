@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/04 17:12:56 by jadithya          #+#    #+#             */
-/*   Updated: 2022/08/04 20:48:33 by jadithya         ###   ########.fr       */
+/*   Created: 2022/06/22 15:31:20 by jadithya          #+#    #+#             */
+/*   Updated: 2022/06/22 16:13:08 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"pipex.h"
+#include"libft.h"
 
-void	ft_printexit(void)
+int	ft_toupper(int c)
 {
-	ft_printf("Insufficient number of arguments. Exiting.");
-	exit(0);
-}
-
-int	main(int argc, char **argv, char **env)
-{
-	if (argc < 5)
-		ft_printexit();
-	return (0);
+	if (c >= 97 && c <= 122)
+		return (c - 32);
+	return (c);
 }

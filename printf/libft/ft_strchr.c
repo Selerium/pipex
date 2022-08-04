@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/04 17:12:56 by jadithya          #+#    #+#             */
-/*   Updated: 2022/08/04 20:48:33 by jadithya         ###   ########.fr       */
+/*   Created: 2022/06/22 15:33:35 by jadithya          #+#    #+#             */
+/*   Updated: 2022/06/23 19:39:00 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"pipex.h"
+#include"libft.h"
 
-void	ft_printexit(void)
+char	*ft_strchr(const char *s, int c)
 {
-	ft_printf("Insufficient number of arguments. Exiting.");
-	exit(0);
-}
+	size_t	i;
+	char	*ch;
+	char	c2;
 
-int	main(int argc, char **argv, char **env)
-{
-	if (argc < 5)
-		ft_printexit();
-	return (0);
+	c2 = (char) c;
+	i = 0;
+	ch = (char *) s;
+	while (i <= ft_strlen(ch))
+	{
+		if (c2 == ch[i])
+			return (ch + i);
+		i++;
+	}
+	return (NULL);
 }

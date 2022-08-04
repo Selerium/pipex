@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/04 17:12:56 by jadithya          #+#    #+#             */
-/*   Updated: 2022/08/04 20:48:33 by jadithya         ###   ########.fr       */
+/*   Created: 2022/06/22 17:07:12 by jadithya          #+#    #+#             */
+/*   Updated: 2022/06/22 17:15:30 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"pipex.h"
+#include"libft.h"
 
-void	ft_printexit(void)
+void	*ft_calloc(size_t num, size_t size)
 {
-	ft_printf("Insufficient number of arguments. Exiting.");
-	exit(0);
-}
+	char	*ns;
 
-int	main(int argc, char **argv, char **env)
-{
-	if (argc < 5)
-		ft_printexit();
-	return (0);
+	if (size != 0 && num > (SIZE_MAX / size))
+		return (NULL);
+	ns = (char *) malloc (num * size);
+	if (!ns)
+		return (NULL);
+	ft_bzero(ns, num * size);
+	return (ns);
 }

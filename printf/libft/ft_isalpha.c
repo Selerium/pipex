@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/04 17:12:56 by jadithya          #+#    #+#             */
-/*   Updated: 2022/08/04 20:48:33 by jadithya         ###   ########.fr       */
+/*   Created: 2022/06/22 14:40:44 by jadithya          #+#    #+#             */
+/*   Updated: 2022/06/23 18:23:05 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"pipex.h"
+#include"libft.h"
 
-void	ft_printexit(void)
+int	ft_isalpha(int c)
 {
-	ft_printf("Insufficient number of arguments. Exiting.");
-	exit(0);
-}
-
-int	main(int argc, char **argv, char **env)
-{
-	if (argc < 5)
-		ft_printexit();
-	return (0);
+	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122))
+		return (1);
+	else
+		return (0);
 }

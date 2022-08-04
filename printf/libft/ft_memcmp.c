@@ -1,26 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/04 17:12:56 by jadithya          #+#    #+#             */
-/*   Updated: 2022/08/04 20:48:33 by jadithya         ###   ########.fr       */
+/*   Created: 2022/06/22 16:14:36 by jadithya          #+#    #+#             */
+/*   Updated: 2022/06/26 19:27:23 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"pipex.h"
+#include"libft.h"
 
-void	ft_printexit(void)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	ft_printf("Insufficient number of arguments. Exiting.");
-	exit(0);
-}
+	unsigned char	*str1;
+	unsigned char	*str2;
+	size_t			i;
 
-int	main(int argc, char **argv, char **env)
-{
-	if (argc < 5)
-		ft_printexit();
-	return (0);
+	if (n == 0)
+		return (0);
+	str1 = (unsigned char *) s1;
+	str2 = (unsigned char *) s2;
+	i = 0;
+	while ((i < n - 1) && n != 1)
+	{
+		if (str1[i] == str2[i])
+		{
+			i++;
+			continue ;
+		}
+		break ;
+	}
+	return (str1[i] - str2[i]);
 }

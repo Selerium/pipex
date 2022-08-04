@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/04 17:12:56 by jadithya          #+#    #+#             */
-/*   Updated: 2022/08/04 20:48:33 by jadithya         ###   ########.fr       */
+/*   Created: 2022/06/22 15:41:51 by jadithya          #+#    #+#             */
+/*   Updated: 2022/06/23 18:37:57 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"pipex.h"
+#include"libft.h"
 
-void	ft_printexit(void)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	ft_printf("Insufficient number of arguments. Exiting.");
-	exit(0);
-}
+	size_t	i;
+	char	*str;
 
-int	main(int argc, char **argv, char **env)
-{
-	if (argc < 5)
-		ft_printexit();
-	return (0);
+	str = (char *) s;
+	i = 0;
+	while (i < n)
+	{
+		if (str[i] == (char) c)
+			return (&str[i]);
+		i++;
+	}
+	return (NULL);
 }

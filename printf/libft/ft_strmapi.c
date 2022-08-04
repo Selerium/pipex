@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/04 17:12:56 by jadithya          #+#    #+#             */
-/*   Updated: 2022/08/04 20:48:33 by jadithya         ###   ########.fr       */
+/*   Created: 2022/06/22 22:21:00 by jadithya          #+#    #+#             */
+/*   Updated: 2022/06/26 20:59:24 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"pipex.h"
+#include"libft.h"
 
-void	ft_printexit(void)
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	ft_printf("Insufficient number of arguments. Exiting.");
-	exit(0);
-}
+	size_t	i;
+	char	*newstr;
 
-int	main(int argc, char **argv, char **env)
-{
-	if (argc < 5)
-		ft_printexit();
-	return (0);
+	if (!s)
+		return (NULL);
+	newstr = (char *) malloc ((ft_strlen((char *) s) + 1) * sizeof(char));
+	if (!newstr)
+		return (NULL);
+	i = 0;
+	while (i < ft_strlen((char *) s))
+	{
+		newstr[i] = f(i, (char) s[i]);
+		i++;
+	}
+	newstr[i] = '\0';
+	return (newstr);
 }

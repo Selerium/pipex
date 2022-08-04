@@ -1,26 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/04 17:12:56 by jadithya          #+#    #+#             */
-/*   Updated: 2022/08/04 20:48:33 by jadithya         ###   ########.fr       */
+/*   Created: 2022/06/22 15:00:42 by jadithya          #+#    #+#             */
+/*   Updated: 2022/06/26 19:10:03 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"pipex.h"
+#include"libft.h"
 
-void	ft_printexit(void)
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	ft_printf("Insufficient number of arguments. Exiting.");
-	exit(0);
-}
+	size_t	i;
+	char	*dst;
+	char	*surc;
 
-int	main(int argc, char **argv, char **env)
-{
-	if (argc < 5)
-		ft_printexit();
-	return (0);
+	dst = (char *) dest;
+	surc = (char *) src;
+	i = 0;
+	if (!dst && !surc)
+		return (NULL);
+	while (i < n)
+	{
+		dst[i] = surc[i];
+		i++;
+	}
+	return (dest);
 }
