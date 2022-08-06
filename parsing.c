@@ -6,83 +6,80 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 21:52:22 by jadithya          #+#    #+#             */
-/*   Updated: 2022/08/05 03:51:17 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/08/06 23:13:09 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"pipex.h"
 
-// char	*ft_findcmd(char *cmd, char **env)
-// {
-// 	int		i;
-// 	char	**paths;
+pid_t	ft_fork(void)
+{
+	pid_t	pid;
 
-// 	i = 0;
-// 	while (env[i][0])
-// 	{
-// 		if (ft_substr(env[i], 0, 4) == "PATH")
-// 			break;
-// 		i++;
-// 	}
-// 	if (env[i] == NULL)
-// 	{
-// 		ft_printf("Command not found. Exiting.");
-// 		exit(0);
-// 	}
-// 	paths = ft_split(env[i][5], ':');
-// 	while (paths[i])
-// 	{
-// 		i++;
-// 	}
-// }
+	pid = fork();
+	if (pid == -1)
+	{
+		ft_printf("Error in creating child. Exiting.\n");
+		exit(-1);
+	}
+	else
+		return (pid);
+}
 
-char	*ft_findcmd(char *cmd, char **env)
+/**
+ * @brief uses a forked process to run a sh command "where", returning the file
+ * 			path of a command cmd given in
+ * @param cmd command to search for
+ * @param env environment variable
+ * @param fd pipe for getting output of execve
+ * @return char* which is the final path variable
+ */
+static char	*ft_findcmd(char *cmd, char **env, int fd[2])
 {
 	pid_t	pid;
 	int		status;
-	char	*args[2];
-	int		fd;
+	char	*args[3];
+	char	*path;
 
+	path = (char *) ft_calloc (6, sizeof(char));
 	args[0] = "/usr/bin/which";
 	args[1] = cmd;
 	args[2] = NULL;
-	pid = fork();
+	pid = ft_fork();
 	if (pid == 0)
-		execve(args[0], args, env); //pass into pipe to be returned
-	else if (pid == -1)
-	{
-		ft_printf("Error in creating child. Exiting.\n");
-		exit(0);
-	}
+		execve(args[0], args, env);
 	wait(&status);
-	fd = open("command.txt", O_RDONLY);
-	// use getnextline to get command
-	// return the command to ft_execute
-	close(fd);
-	cmd = "/usr/bin/ls"; // receiving end of pipe
-	return (cmd);
+	read(fd[READ], path, 10);
+	close (fd[READ]);
+	path[ft_strlen(path) - 1] = '\0';
+	return (path);
 }
 
-void	ft_execute(char *file, char *cmd, char **env)
+void	ft_execute(char *path, char **args, char **env)
 {
-	char	**split;
 	pid_t	pid;
 	int		status;
-	char	*cmdpath;
 
-	split = ft_split(cmd, ' ');
-	file = "hi";
-	ft_printf("test\n%s\n", file);
-	cmdpath = ft_findcmd(split[0], env);
-	pid = fork();
+	pid = ft_fork();
 	if (pid == 0)
-		execve(cmdpath, split, env); //to be piped to next function
-	else if (pid == -1)
-	{
-		ft_printf("Error in creating child. Exiting.\n");
-		exit(0);
-	}
-	wait(&status);
-	// ft_printf("waiting pid = %d\n", pid);
-	// ft_printf("testing values: pid - %d, status - %d\n", pid, status);
+		execve(path, args, env);
+	wait (&status);
+}
+
+void	ft_parse(char *file, char *args, char **env)
+{
+	char	*cmdpath;
+	int		fd[2];
+	int		stdoutcpy;
+	char	**cmd;
+
+	cmd = ft_split(args, ' ');
+	pipe(fd);
+	stdoutcpy = dup(STDOUT_FILENO);
+	dup2(fd[WRITE], STDOUT_FILENO);
+	cmdpath = ft_findcmd(cmd[0], env, fd);
+	close (fd[WRITE]);
+	dup2(stdoutcpy, STDOUT_FILENO);
+	ft_execute(cmdpath, cmd, env);
+	//ft_printf("%s\n%d\n%s\n\n", cmdpath, ft_strlen(cmdpath), cmd[0]);
 }

@@ -6,12 +6,14 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 17:21:12 by jadithya          #+#    #+#             */
-/*   Updated: 2022/08/05 03:31:36 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/08/06 23:03:07 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
+# define READ 0
+# define WRITE 1
 
 # include<unistd.h>
 # include<sys/wait.h>
@@ -19,6 +21,7 @@
 # include"printf/libftprintf.h"
 
 void	ft_printexit(void);
-void	ft_execute(char *file, char *cmd, char **env);
+void	ft_printerror(void);
+void	ft_parse(char *file, char *args, char **env);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/22 13:42:18 by jadithya          #+#    #+#              #
-#    Updated: 2022/06/27 18:38:56 by jadithya         ###   ########.fr        #
+#    Updated: 2022/08/06 21:41:23 by jadithya         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ SRCS =ft_atoi.c\
 		ft_strtrim.c\
 		ft_substr.c\
 		ft_tolower.c\
-		ft_toupper.c
+		ft_toupper.c\
 
 CC = gcc
 
