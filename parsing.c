@@ -6,7 +6,7 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 21:52:22 by jadithya          #+#    #+#             */
-/*   Updated: 2022/08/06 23:13:09 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/08/07 01:33:24 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char	*ft_findcmd(char *cmd, char **env, int fd[2])
 	char	*args[3];
 	char	*path;
 
-	path = (char *) ft_calloc (6, sizeof(char));
+	path = (char *) ft_calloc (30, sizeof(char));
 	args[0] = "/usr/bin/which";
 	args[1] = cmd;
 	args[2] = NULL;
@@ -49,7 +49,7 @@ static char	*ft_findcmd(char *cmd, char **env, int fd[2])
 	if (pid == 0)
 		execve(args[0], args, env);
 	wait(&status);
-	read(fd[READ], path, 10);
+	read(fd[READ], path, 30);
 	close (fd[READ]);
 	path[ft_strlen(path) - 1] = '\0';
 	return (path);
@@ -81,5 +81,5 @@ void	ft_parse(char *file, char *args, char **env)
 	close (fd[WRITE]);
 	dup2(stdoutcpy, STDOUT_FILENO);
 	ft_execute(cmdpath, cmd, env);
-	//ft_printf("%s\n%d\n%s\n\n", cmdpath, ft_strlen(cmdpath), cmd[0]);
+	// ft_printf("%s\n%d\n%s - %s\n\n", cmdpath, ft_strlen(cmdpath), cmd[0], file);
 }
