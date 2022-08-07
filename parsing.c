@@ -6,12 +6,17 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 21:52:22 by jadithya          #+#    #+#             */
-/*   Updated: 2022/08/07 01:33:24 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/08/08 00:06:57 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"pipex.h"
 
+/**
+ * @brief a wrapper for the "fork()" function to check for errors in child
+ * 			creation
+ * @return pid_t which is the pid value of the process (0 for child, >0 for parent)
+ */
 pid_t	ft_fork(void)
 {
 	pid_t	pid;
@@ -50,11 +55,17 @@ static char	*ft_findcmd(char *cmd, char **env, int fd[2])
 		execve(args[0], args, env);
 	wait(&status);
 	read(fd[READ], path, 30);
-	close (fd[READ]);
 	path[ft_strlen(path) - 1] = '\0';
 	return (path);
 }
 
+/**
+ * @brief wrapper for "execve()"
+ * 
+ * @param path provides the path to the command
+ * @param args command and its arguments
+ * @param env enviornment variables
+ */
 void	ft_execute(char *path, char **args, char **env)
 {
 	pid_t	pid;
@@ -63,9 +74,18 @@ void	ft_execute(char *path, char **args, char **env)
 	pid = ft_fork();
 	if (pid == 0)
 		execve(path, args, env);
+	
 	wait (&status);
 }
 
+/**
+ * @brief parses through the arguments to get command and its file path, then
+ * 			calls "execve()" to run the said command with provided args
+ * 
+ * @param file name of infile
+ * @param args arguments for the cmd
+ * @param env environment variable
+ */
 void	ft_parse(char *file, char *args, char **env)
 {
 	char	*cmdpath;
@@ -78,8 +98,9 @@ void	ft_parse(char *file, char *args, char **env)
 	stdoutcpy = dup(STDOUT_FILENO);
 	dup2(fd[WRITE], STDOUT_FILENO);
 	cmdpath = ft_findcmd(cmd[0], env, fd);
+	ft_execute(cmdpath, cmd, env);
 	close (fd[WRITE]);
 	dup2(stdoutcpy, STDOUT_FILENO);
-	ft_execute(cmdpath, cmd, env);
-	// ft_printf("%s\n%d\n%s - %s\n\n", cmdpath, ft_strlen(cmdpath), cmd[0], file);
+	free(cmdpath);
+	// ft_printf("%s\n%d\n%s - %s\n\n", cmdpath, ft_strlen(cmdpath), cmd[1], file);
 }

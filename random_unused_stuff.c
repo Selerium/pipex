@@ -21,3 +21,11 @@
 // 		i++;
 // 	}
 // }
+
+
+// argsize = ft_strlen(argv[1]) + ft_strlen(argv[2]) + 2;
+// 	args = (char *) malloc (argsize * sizeof(char));
+// 	ft_strlcpy(args, argv[1], ft_strlen(argv[1]) + 1);
+// 	ft_strlcat(args, " ", argsize);
+// 	ft_strlcat(args, argv[2], argsize);
+// 	ft_printf("test %d %s\n", ft_strlen(args), args);
