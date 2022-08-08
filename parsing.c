@@ -6,7 +6,7 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 21:52:22 by jadithya          #+#    #+#             */
-/*   Updated: 2022/08/08 00:06:57 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/08/08 22:03:36 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void	ft_execute(char *path, char **args, char **env)
 	pid = ft_fork();
 	if (pid == 0)
 		execve(path, args, env);
-	
 	wait (&status);
 }
 
@@ -86,21 +85,24 @@ void	ft_execute(char *path, char **args, char **env)
  * @param args arguments for the cmd
  * @param env environment variable
  */
-void	ft_parse(char *file, char *args, char **env)
+void	ft_parse(char *file, char *args, char **env, int flag)
 {
-	char	*cmdpath;
-	int		fd[2];
-	int		stdoutcpy;
-	char	**cmd;
+	char		*cmdpath;
+	int			fd[2];
+	static int	stdoutcpy;
+	char		**cmd;
 
 	cmd = ft_split(args, ' ');
 	pipe(fd);
-	stdoutcpy = dup(STDOUT_FILENO);
+	if (!stdoutcpy)
+		stdoutcpy = dup(STDOUT_FILENO);
 	dup2(fd[WRITE], STDOUT_FILENO);
 	cmdpath = ft_findcmd(cmd[0], env, fd);
-	ft_execute(cmdpath, cmd, env);
 	close (fd[WRITE]);
 	dup2(stdoutcpy, STDOUT_FILENO);
+	ft_execute(cmdpath, cmd, env);
 	free(cmdpath);
-	// ft_printf("%s\n%d\n%s - %s\n\n", cmdpath, ft_strlen(cmdpath), cmd[1], file);
+	if (flag == 2)
+		dup2(stdoutcpy, STDOUT_FILENO);
+	ft_printf("%s\n%d\n%s - %s\n\n", cmdpath, ft_strlen(cmdpath), args, cmd[2]);
 }
