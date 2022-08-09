@@ -6,7 +6,7 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 21:52:22 by jadithya          #+#    #+#             */
-/*   Updated: 2022/08/08 22:03:36 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/08/09 17:43:24 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,20 +89,21 @@ void	ft_parse(char *file, char *args, char **env, int flag)
 {
 	char		*cmdpath;
 	int			fd[2];
-	static int	stdoutcpy;
+	int			stdoutcpy;
+	int			infile;
 	char		**cmd;
 
 	cmd = ft_split(args, ' ');
 	pipe(fd);
-	if (!stdoutcpy)
-		stdoutcpy = dup(STDOUT_FILENO);
+	stdoutcpy = dup(STDOUT_FILENO);
 	dup2(fd[WRITE], STDOUT_FILENO);
-	cmdpath = ft_findcmd(cmd[0], env, fd);
 	close (fd[WRITE]);
-	dup2(stdoutcpy, STDOUT_FILENO);
+	cmdpath = ft_findcmd(cmd[0], env, fd);
+	dup2(open(file, O_RDONLY), STDIN_FILENO);
+	infile = open("temp.txt", O_CREAT | O_WRONLY, 0666);
+	dup2(infile, STDOUT_FILENO);
 	ft_execute(cmdpath, cmd, env);
-	free(cmdpath);
 	if (flag == 2)
 		dup2(stdoutcpy, STDOUT_FILENO);
-	ft_printf("%s\n%d\n%s - %s\n\n", cmdpath, ft_strlen(cmdpath), args, cmd[2]);
+	free(cmdpath);
 }
