@@ -6,7 +6,7 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 21:52:22 by jadithya          #+#    #+#             */
-/*   Updated: 2022/08/09 19:05:51 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/08/10 19:27:47 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,29 +81,34 @@ void	ft_execute(char *path, char **args, char **env)
  * @brief parses through the arguments to get command and its file path, then
  * 			calls "execve()" to run the said command with provided args
  * 
- * @param file name of infile
+ * @param infile name of infile
  * @param args arguments for the cmd
  * @param env environment variable
  */
 void	ft_parse(char *file, char *args, char **env, int flag)
 {
 	char		*cmdpath;
-	int			fd[2];
+	static int	fd[2];
 	int			stdoutcpy;
-	int			infile;
 	char		**cmd;
 
 	cmd = ft_split(args, ' ');
-	pipe(fd);
+	if (!fd[0])
+		pipe(fd);
 	stdoutcpy = dup(STDOUT_FILENO);
 	dup2(fd[WRITE], STDOUT_FILENO);
-	close (fd[WRITE]);
 	cmdpath = ft_findcmd(cmd[0], env, fd);
-	dup2(open(file, O_RDONLY), STDIN_FILENO);
-	infile = open("temp.txt", O_CREAT | O_WRONLY, 0666);
-	dup2(infile, STDOUT_FILENO);
-	ft_execute(cmdpath, cmd, env);
-	if (flag == 2)
-		dup2(stdoutcpy, STDOUT_FILENO);
+	if (flag == 0)
+	{
+		dup2(open(file, O_RDONLY), STDIN_FILENO);
+		ft_execute(cmdpath, cmd, env);
+	}
+	//else if (flag == 2)
+	//{
+	//	dup2(open("temp.txt", O_RDONLY), STDIN_FILENO);
+	//	dup2(temp, STDOUT_FILENO);
+	//}
+	close(fd[READ]);
+	close(fd[WRITE]);
 	free(cmdpath);
 }
