@@ -6,7 +6,7 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 21:52:22 by jadithya          #+#    #+#             */
-/*   Updated: 2022/08/10 19:27:47 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/08/11 19:14:28 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,30 +85,35 @@ void	ft_execute(char *path, char **args, char **env)
  * @param args arguments for the cmd
  * @param env environment variable
  */
-void	ft_parse(char *file, char *args, char **env, int flag)
+void	ft_parse(char *file, char *args, char **env, int flag, int fd[2])
 {
 	char		*cmdpath;
-	static int	fd[2];
 	int			stdoutcpy;
 	char		**cmd;
+	char		*test;
 
-	cmd = ft_split(args, ' ');
-	if (!fd[0])
-		pipe(fd);
 	stdoutcpy = dup(STDOUT_FILENO);
 	dup2(fd[WRITE], STDOUT_FILENO);
+	cmd = ft_split(args, ' ');
 	cmdpath = ft_findcmd(cmd[0], env, fd);
+	ft_printf("trying\n");
 	if (flag == 0)
 	{
+		// close(fd[READ]);
 		dup2(open(file, O_RDONLY), STDIN_FILENO);
 		ft_execute(cmdpath, cmd, env);
 	}
-	//else if (flag == 2)
-	//{
-	//	dup2(open("temp.txt", O_RDONLY), STDIN_FILENO);
-	//	dup2(temp, STDOUT_FILENO);
-	//}
-	close(fd[READ]);
-	close(fd[WRITE]);
+	// else if (flag == 2)
+	// {
+	// 	close(fd[WRITE]);
+	// 	dup2(fd[READ], STDIN_FILENO);
+	// 	dup2(open(file, O_CREAT | O_WRONLY), STDOUT_FILENO);
+	// 	ft_execute(cmdpath, cmd, env);
+	// }
+	read(fd[READ], test, 250);
+	dup2(stdoutcpy, STDOUT_FILENO);
+	ft_printf("test %d - %s - %s\n", flag, cmdpath, test);
+	// close(fd[READ]);
+	// close(fd[WRITE]);
 	free(cmdpath);
 }
