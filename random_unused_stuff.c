@@ -71,3 +71,9 @@
 //	close(temp);
 //	free(cmdpath);
 //}
+
+unlink("outfile");
+		int x = open("outfile", O_CREAT | O_WRONLY, 0777);
+		close(fd[WRITE]);
+		dup2(x, STDOUT_FILENO);
+		close(x);

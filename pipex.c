@@ -6,7 +6,7 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 17:12:56 by jadithya          #+#    #+#             */
-/*   Updated: 2022/08/11 19:12:41 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/08/20 20:17:38 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,36 @@ void	ft_printerror(void)
 
 int	main(int argc, char **argv, char **env)
 {
-	pid_t	pid1;
-	pid_t	pid2;
 	int		fd[2];
+	int		p1;
+	int		p2;
+	char	**cmd;
+	char	*cmdpath;
 
 	if (argc != 5)
 		ft_printexit();
 	pipe(fd);
-	pid1 = ft_fork();
-	pid2 = 25;
-	// if (pid1 != 0)
-	// 	pid2 = ft_fork();
-	if (pid1 && pid2 && waitpid(pid1, NULL, 0) && waitpid(pid2, NULL, 0))
-		ft_printf("%d, %d\n", pid1, pid2);
-	if (!pid1)
-		ft_parse(argv[1], argv[2], env, 0, fd);
-	waitpid(pid1, NULL, 0);
-	// if (!pid2)
-	// 	ft_printf("child 2 reporting\n");
+	p1 = ft_fork();
+	if (p1 == 0)
+	{
+		cmd = ft_split(argv[2], ' ');
+		cmdpath = ft_findcmd(cmd[0], env);		
+		ft_infile(argv[1]);
+		ft_outfile(fd);
+		execve(cmdpath, cmd, env);
+	}
+	p2 = ft_fork();
+	if (p2 == 0)
+	{
+		cmd = ft_split(argv[argc - 2], ' ');
+		cmdpath = ft_findcmd(cmd[0], env);		
+		ft_finalin(fd[READ]);
+		ft_finalout(argv[argc - 1], fd[WRITE]);
+		execve(cmdpath, cmd, env);
+	}
+	close(fd[READ]);
+	close(fd[WRITE]);
+	waitpid(p1, NULL, 0);
+	waitpid(p2, NULL, 0);
 	return (0);
 }

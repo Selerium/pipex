@@ -6,7 +6,7 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 21:52:22 by jadithya          #+#    #+#             */
-/*   Updated: 2022/08/11 19:14:28 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/08/20 20:17:09 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ pid_t	ft_fork(void)
 	if (pid == -1)
 	{
 		ft_printf("Error in creating child. Exiting.\n");
-		exit(-1);
+		exit(1);
 	}
 	else
 		return (pid);
@@ -39,10 +39,10 @@ pid_t	ft_fork(void)
  * @param fd pipe for getting output of execve
  * @return char* which is the final path variable
  */
-static char	*ft_findcmd(char *cmd, char **env, int fd[2])
+char	*ft_findcmd(char *cmd, char **env)
 {
 	pid_t	pid;
-	int		status;
+	int		fd[2];
 	char	*args[3];
 	char	*path;
 
@@ -50,10 +50,16 @@ static char	*ft_findcmd(char *cmd, char **env, int fd[2])
 	args[0] = "/usr/bin/which";
 	args[1] = cmd;
 	args[2] = NULL;
+	pipe(fd);
 	pid = ft_fork();
 	if (pid == 0)
+	{
+		close(fd[READ]);
+		dup2(fd[WRITE], STDOUT_FILENO);
 		execve(args[0], args, env);
-	wait(&status);
+	}
+	close(fd[WRITE]);
+	wait(NULL);
 	read(fd[READ], path, 30);
 	path[ft_strlen(path) - 1] = '\0';
 	return (path);
@@ -66,16 +72,50 @@ static char	*ft_findcmd(char *cmd, char **env, int fd[2])
  * @param args command and its arguments
  * @param env enviornment variables
  */
-void	ft_execute(char *path, char **args, char **env)
-{
-	pid_t	pid;
-	int		status;
+// void	ft_execute(char *path, char **args, char **env)
+// {
+// 	pid_t	pid;
+// 	int		status;
 
-	pid = ft_fork();
-	if (pid == 0)
-		execve(path, args, env);
-	wait (&status);
+// 	pid = ft_fork();
+// 	if (pid == 0)
+// 		execve(path, args, env);
+// 	wait (&status);
+// }
+
+void	ft_infile(char *infile)
+{
+	int	fd;
+
+	fd = open(infile, O_RDONLY);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
 }
+
+void	ft_outfile(int fd[2])
+{
+	close(fd[READ]);
+	dup2(fd[WRITE], STDOUT_FILENO);
+	close(fd[WRITE]);
+}
+
+void	ft_finalin(int fd)
+{
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+}
+
+void	ft_finalout(char *filename, int fd)
+{
+	int	file;
+
+	unlink(filename);
+	file = open(filename, O_CREAT | O_WRONLY, 0777);
+	dup2(file, STDOUT_FILENO);
+	close(file);
+	close(fd);
+}
+
 
 /**
  * @brief parses through the arguments to get command and its file path, then
@@ -85,35 +125,12 @@ void	ft_execute(char *path, char **args, char **env)
  * @param args arguments for the cmd
  * @param env environment variable
  */
-void	ft_parse(char *file, char *args, char **env, int flag, int fd[2])
-{
-	char		*cmdpath;
-	int			stdoutcpy;
-	char		**cmd;
-	char		*test;
+// void	ft_parse(char *file, char *args, char **env, int fd[2])
+// {
+// 	char	*cmdpath;
+// 	char	**cmd;
 
-	stdoutcpy = dup(STDOUT_FILENO);
-	dup2(fd[WRITE], STDOUT_FILENO);
-	cmd = ft_split(args, ' ');
-	cmdpath = ft_findcmd(cmd[0], env, fd);
-	ft_printf("trying\n");
-	if (flag == 0)
-	{
-		// close(fd[READ]);
-		dup2(open(file, O_RDONLY), STDIN_FILENO);
-		ft_execute(cmdpath, cmd, env);
-	}
-	// else if (flag == 2)
-	// {
-	// 	close(fd[WRITE]);
-	// 	dup2(fd[READ], STDIN_FILENO);
-	// 	dup2(open(file, O_CREAT | O_WRONLY), STDOUT_FILENO);
-	// 	ft_execute(cmdpath, cmd, env);
-	// }
-	read(fd[READ], test, 250);
-	dup2(stdoutcpy, STDOUT_FILENO);
-	ft_printf("test %d - %s - %s\n", flag, cmdpath, test);
-	// close(fd[READ]);
-	// close(fd[WRITE]);
-	free(cmdpath);
-}
+// 	cmd = ft_split(args, ' ');
+// 	dup2(fd[WRITE], STDOUT_FILENO);
+// 	return(ft_findcmd(cmd[0], env));
+// }

@@ -6,7 +6,7 @@
 #    By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/02 22:13:13 by jadithya          #+#    #+#              #
-#    Updated: 2022/08/10 19:28:04 by jadithya         ###   ########.fr        #
+#    Updated: 2022/08/14 17:30:31 by jadithya         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ SRCS = pipex.c\
 
 CC = gcc
 
-#CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 OBJS = $(SRCS:.c=.o)
 
