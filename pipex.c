@@ -6,7 +6,7 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 17:12:56 by jadithya          #+#    #+#             */
-/*   Updated: 2022/08/20 20:17:38 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/08/25 16:49:04 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_printexit(void)
 {
-	ft_printf("Insufficient number of arguments. Exiting.\n");
+	ft_printf("Incorrect number of arguments. Exiting.\n");
 	exit(-1);
 }
 
@@ -24,24 +24,40 @@ void	ft_printerror(void)
 	exit(-1);
 }
 
+void	ft_wait(int p1, int p2, int fd[2])
+{
+	close(fd[READ]);
+	close(fd[WRITE]);
+	waitpid(p1, NULL, 0);
+	waitpid(p2, NULL, 0);
+}
+
 int	main(int argc, char **argv, char **env)
 {
-	int		fd[2];
+	int	fd[2];
+
+	if (argc != 5)
+		ft_printexit();
+	pipex(argc, argv, env, fd);
+	close(fd[READ]);
+	close(fd[WRITE]);
+}
+
+void	pipex(int argc, char **argv, char **env, int fd[2])
+{
 	int		p1;
 	int		p2;
 	char	**cmd;
 	char	*cmdpath;
 
-	if (argc != 5)
-		ft_printexit();
 	pipe(fd);
 	p1 = ft_fork();
 	if (p1 == 0)
 	{
 		cmd = ft_split(argv[2], ' ');
-		cmdpath = ft_findcmd(cmd[0], env);		
-		ft_infile(argv[1]);
-		ft_outfile(fd);
+		cmdpath = ft_findcmd(cmd[0], env);
+		ft_checkcmd(cmdpath);
+		ft_infile(argv[1], fd);
 		execve(cmdpath, cmd, env);
 	}
 	p2 = ft_fork();
@@ -53,9 +69,5 @@ int	main(int argc, char **argv, char **env)
 		ft_finalout(argv[argc - 1], fd[WRITE]);
 		execve(cmdpath, cmd, env);
 	}
-	close(fd[READ]);
-	close(fd[WRITE]);
-	waitpid(p1, NULL, 0);
-	waitpid(p2, NULL, 0);
-	return (0);
+	ft_wait(p1, p2, fd);
 }

@@ -72,8 +72,53 @@
 //	free(cmdpath);
 //}
 
-unlink("outfile");
-		int x = open("outfile", O_CREAT | O_WRONLY, 0777);
-		close(fd[WRITE]);
-		dup2(x, STDOUT_FILENO);
-		close(x);
+// unlink("outfile");
+// 		int x = open("outfile", O_CREAT | O_WRONLY, 0777);
+// 		close(fd[WRITE]);
+// 		dup2(x, STDOUT_FILENO);
+// 		close(x);
+
+		
+/**
+ * @brief wrapper for "execve()"
+ * 
+ * @param path provides the path to the command
+ * @param args command and its arguments
+ * @param env enviornment variables
+ */
+// void	ft_execute(char *path, char **args, char **env)
+// {
+// 	pid_t	pid;
+// 	int		status;
+
+// 	pid = ft_fork();
+// 	if (pid == 0)
+// 		execve(path, args, env);
+// 	wait (&status);
+// }
+
+/**
+ * @brief parses through the arguments to get command and its file path, then
+ * 			calls "execve()" to run the said command with provided args
+ * 
+ * @param infile name of infile
+ * @param args arguments for the cmd
+ * @param env environment variable
+ */
+// void	ft_parse(char *file, char *args, char **env, int fd[2])
+// {
+// 	char	*cmdpath;
+// 	char	**cmd;
+
+// 	cmd = ft_split(args, ' ');
+// 	dup2(fd[WRITE], STDOUT_FILENO);
+// 	return(ft_findcmd(cmd[0], env));
+// }
+
+
+// void	ft_outfile(int fd[2])
+// {
+// 	close(fd[READ]);
+// 	dup2(fd[WRITE], STDOUT_FILENO);
+// 	close(fd[WRITE]);
+// }

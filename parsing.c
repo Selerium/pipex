@@ -6,7 +6,7 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 21:52:22 by jadithya          #+#    #+#             */
-/*   Updated: 2022/08/20 20:17:09 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/08/25 16:51:22 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,35 +65,14 @@ char	*ft_findcmd(char *cmd, char **env)
 	return (path);
 }
 
-/**
- * @brief wrapper for "execve()"
- * 
- * @param path provides the path to the command
- * @param args command and its arguments
- * @param env enviornment variables
- */
-// void	ft_execute(char *path, char **args, char **env)
-// {
-// 	pid_t	pid;
-// 	int		status;
 
-// 	pid = ft_fork();
-// 	if (pid == 0)
-// 		execve(path, args, env);
-// 	wait (&status);
-// }
-
-void	ft_infile(char *infile)
+void	ft_infile(char *infile, int fd[2])
 {
-	int	fd;
+	int	f;
 
-	fd = open(infile, O_RDONLY);
-	dup2(fd, STDIN_FILENO);
-	close(fd);
-}
-
-void	ft_outfile(int fd[2])
-{
+	f = open(infile, O_RDONLY);
+	dup2(f, STDIN_FILENO);
+	close(f);
 	close(fd[READ]);
 	dup2(fd[WRITE], STDOUT_FILENO);
 	close(fd[WRITE]);
@@ -116,21 +95,8 @@ void	ft_finalout(char *filename, int fd)
 	close(fd);
 }
 
-
-/**
- * @brief parses through the arguments to get command and its file path, then
- * 			calls "execve()" to run the said command with provided args
- * 
- * @param infile name of infile
- * @param args arguments for the cmd
- * @param env environment variable
- */
-// void	ft_parse(char *file, char *args, char **env, int fd[2])
-// {
-// 	char	*cmdpath;
-// 	char	**cmd;
-
-// 	cmd = ft_split(args, ' ');
-// 	dup2(fd[WRITE], STDOUT_FILENO);
-// 	return(ft_findcmd(cmd[0], env));
-// }
+void	ft_checkcmd(char *cmdpath)
+{
+	if (access(cmdpath, F_OK) != 0)
+		ft_printerror();
+}

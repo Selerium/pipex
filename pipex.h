@@ -6,7 +6,7 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 17:21:12 by jadithya          #+#    #+#             */
-/*   Updated: 2022/08/20 20:18:00 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/08/25 16:51:35 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,12 @@ void	ft_printexit(void);
 void	ft_printerror(void);
 void	ft_parse(char *file, char *args, char **env, int fd[2]);
 void	ft_execute(char *path, char **args, char **env);
-void	ft_infile(char *infile);
-void	ft_outfile(int fd[2]);
+void	ft_checkcmd(char *cmdpath);
+void	ft_infile(char *infile, int fd[2]);
 void	ft_finalout(char *filename, int fd);
-void    ft_finalin(int fd);
+void	ft_finalin(int fd);
+void	pipex(int argc, char **argv, char **env, int fd[2]);
+void	ft_wait(int p1, int p2, int fd[2]);
 
 char	*ft_findcmd(char *cmd, char **env);
 
