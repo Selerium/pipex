@@ -6,14 +6,15 @@
 #    By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/02 22:13:13 by jadithya          #+#    #+#              #
-#    Updated: 2022/08/14 17:30:31 by jadithya         ###   ########.fr        #
+#    Updated: 2022/09/06 20:13:52 by jadithya         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pipex
 
 SRCS = pipex.c\
-		parsing.c
+		parsing.c\
+		errors.c
 
 CC = gcc
 
@@ -21,13 +22,13 @@ CFLAGS = -Wall -Wextra -Werror
 
 OBJS = $(SRCS:.c=.o)
 
-LIB = printf/libftprintf.a
+LIB = libft/libft.a
 
 %.o: %.c
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(NAME): $(OBJS)
-	make -C printf
+	make bonus -C libft
 	gcc $(OBJS) -o $(NAME) $(CFLAGS) $(LIB)
 
 bonus: 
@@ -35,9 +36,11 @@ bonus:
 all: $(NAME)
 
 clean:
-	rm -f $(OBJS) printf/*.o printf/libft/*.o
+	rm -f $(OBJS)
+	make clean -C libft
 
 fclean: clean
-	rm -f $(NAME) printf/libftprintf.a printf/libft.a
+	rm -f $(NAME)
+	make fclean -C libft
 
 re: fclean all

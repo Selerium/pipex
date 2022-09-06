@@ -1,20 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_toupper.c                                       :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/22 15:31:20 by jadithya          #+#    #+#             */
-/*   Updated: 2022/06/22 16:13:08 by jadithya         ###   ########.fr       */
+/*   Created: 2022/07/14 17:48:08 by jadithya          #+#    #+#             */
+/*   Updated: 2022/07/14 23:24:37 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-int	ft_toupper(int c)
-{
-	if (c >= 97 && c <= 122)
-		return (c - 32);
-	return (c);
-}
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1
+# endif
+# include<stdlib.h>
+# include<limits.h>
+# include<stdio.h>
+# include<unistd.h>
+
+char	*get_next_line(int fd);
+size_t	ft_strlen(const char *s);
+char	*ft_splithold(char *hold);
+int		ft_hasnextline(char *check);
+char	*ft_join(char *s1, char *s2);
+void	*ft_calloc(size_t num, size_t size);
+
+#endif

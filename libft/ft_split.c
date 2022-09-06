@@ -12,24 +12,32 @@
 
 #include"libft.h"
 
+// static int	ft_condition(size_t i, size_t j, const char *s, char c)
+// {
+// 	if ((s[i] != c || s[j] == '"') && 
+// 		s[i] != '\0' && (i - 1 == j || s[i - 1] != '"'))
+// 		return (1);
+// 	return (0);
+// }
+
 static int	ft_count(char const *s, char c)
 {
 	size_t	i;
+	size_t	j;
 	int		count;
-	int		flag;
 
 	i = 0;
 	count = 0;
-	flag = 1;
 	while (i <= ft_strlen((char *) s))
 	{
-		if ((s[i] == c || s[i] == '\0') && flag == 0)
-		{
-			count++;
-			flag = 1;
-		}
-		else if (s[i] != c)
-			flag = 0;
+		
+		while (s[i] == c)
+			i++;
+		j = i++;
+		while ((s[i] != c || s[j] == '"') && 
+			s[i] != '\0' && (i - 1 == j || s[i - 1] != '"'))
+			i++;
+		count++;
 		i++;
 	}
 	return (count);
@@ -53,10 +61,10 @@ char	**ft_split(char const *s, char c)
 		return (NULL);
 	while (++n < count)
 	{
-		while (s[i] == c)
+		while (s[i] == c || s[i] == '"')
 			i++;
-		j = i;
-		while (s[i] != c && s[i] != '\0')
+		j = i++;
+		while ((s[i] != c || s[j - 1] == '"') && s[i] != '\0' && s[i] != '"')
 			i++;
 		newstr[n] = ft_substr(s, j, i - j);
 	}

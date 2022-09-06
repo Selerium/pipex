@@ -1,38 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstmap.c                                        :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/27 18:16:14 by jadithya          #+#    #+#             */
-/*   Updated: 2022/06/27 20:03:34 by jadithya         ###   ########.fr       */
+/*   Created: 2022/06/22 15:31:20 by jadithya          #+#    #+#             */
+/*   Updated: 2022/09/01 16:54:41 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"libft.h"
 
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void*), void (*del)(void *))
+int	ft_toupper(int c)
 {
-	t_list	*first;
-	t_list	*oldlist;
-	t_list	*newitem;
-
-	if (!lst)
-		return (NULL);
-	first = ft_lstnew(f(lst->content));
-	lst = lst->next;
-	while (lst)
-	{
-		oldlist = lst;
-		newitem = ft_lstnew(f(lst->content));
-		if (!newitem)
-		{
-			ft_lstdelone(newitem, del);
-			return (NULL);
-		}
-		ft_lstadd_back(&first, newitem);
-		lst = lst->next;
-	}
-	return (first);
+	if (c >= 97 && c <= 122)
+		return (c - 32);
+	return (c);
 }

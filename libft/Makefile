@@ -6,7 +6,7 @@
 #    By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/22 13:42:18 by jadithya          #+#    #+#              #
-#    Updated: 2022/08/06 21:41:23 by jadithya         ###   ########.fr        #
+#    Updated: 2022/08/31 20:01:18 by jadithya         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,9 +45,27 @@ SRCS =ft_atoi.c\
 		ft_strtrim.c\
 		ft_substr.c\
 		ft_tolower.c\
-		ft_toupper.c\
+		ft_toupper.c
 
-CC = gcc
+PRINTFSRC = printf/ft_digits.c\
+			printf/ft_hexdigits.c\
+			printf/ft_power.c\
+			printf/ft_precisionprint.c\
+			printf/ft_printchr.c\
+			printf/ft_printnum.c\
+			printf/ft_printf.c\
+			printf/ft_printhex.c\
+			printf/ft_printhex2.c\
+			printf/ft_printptrhex.c\
+			printf/ft_printspace.c\
+			printf/ft_printstr.c\
+			printf/ft_printunsint.c\
+			printf/ft_printzeros.c\
+
+GNLSRC = gnl/get_next_line.c\
+			gnl/get_next_line_utils.c\
+			gnl/get_next_line_bonus.c\
+			gnl/get_next_line_utils_bonus.c\
 
 BONUSSRC = ft_lstnew.c\
 			ft_lstadd_back.c\
@@ -59,27 +77,38 @@ BONUSSRC = ft_lstnew.c\
 			ft_lstiter.c\
 			ft_lstmap.c
 
+CC = gcc
+
 CFLAGS = -Wextra -Werror -Wall
 
 DEPS = libft.h
 
 OBJS = $(SRCS:.c=.o)
 
+PRINTFOBJS = $(PRINTFSRC:.c=.o)
+
+GNLOBJS = $(GNLSRC:.c=.o)
+
 BONUSOBJ = $(BONUSSRC:.c=.o)
+
+ALLOBJS = $(OBJS) $(BONUSOBJ) $(PRINTFOBJS) $(GNLOBJS)
 
 %.o: %.c
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-$(NAME): $(OBJS)
-	ar rcs $(NAME) $(OBJS) 
+$(NAME): $(OBJS) $(PRINTFOBJS) $(GNLOBJS)
+	ar rcs $(NAME) $(OBJS) $(PRINTFOBJS) $(GNLOBJS)
 
 all: $(NAME)
 
-bonus: $(OBJS) $(BONUSOBJ)
-	ar rcs $(NAME) $(OBJS) $(BONUSOBJ)
+main.c: $(NAME)
+	$(CC) $(CFLAGS) $@ $(NAME)
+
+bonus: $(ALLOBJS)
+	ar rcs $(NAME) $(ALLOBJS)
 
 clean:
-	rm -f $(OBJS) $(BONUSOBJ)
+	rm -f $(OBJS) $(BONUSOBJ) $(PRINTFOBJS) $(GNLOBJS)
 
 fclean: clean
 	rm -f $(NAME)

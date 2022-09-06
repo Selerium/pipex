@@ -6,7 +6,7 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:14:47 by jadithya          #+#    #+#             */
-/*   Updated: 2022/07/28 18:52:08 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/07/19 20:59:35 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,13 @@ int	ft_printf(const char *s, ...)
 	char	*flags;
 	int		count;
 
-	i = 0;
+	i = -1;
 	count = 0;
 	flags = NULL;
 	va_start(ap, s);
-	while (s[i] != '\0')
+	while (s[++i] != '\0')
 	{
-		if (s[i] == '%' && s[i + 1] != '\0')
+		if (s[i] == '%')
 		{
 			i++;
 			count += ft_actualprint(s, &i, flags, ap);
@@ -99,7 +99,6 @@ int	ft_printf(const char *s, ...)
 			write(1, &s[i], 1);
 			count++;
 		}
-		i++;
 	}
 	va_end(ap);
 	return (count);

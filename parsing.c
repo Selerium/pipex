@@ -6,7 +6,7 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 21:52:22 by jadithya          #+#    #+#             */
-/*   Updated: 2022/08/25 16:51:22 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/09/06 14:40:42 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,8 @@ pid_t	ft_fork(void)
 
 	pid = fork();
 	if (pid == -1)
-	{
-		ft_printf("Error in creating child. Exiting.\n");
-		exit(1);
-	}
-	else
-		return (pid);
+		ft_printexit(3, NULL);
+	return (pid);
 }
 
 /**
@@ -66,10 +62,12 @@ char	*ft_findcmd(char *cmd, char **env)
 }
 
 
-void	ft_infile(char *infile, int fd[2])
+void	ft_first(char *infile, int fd[2])
 {
 	int	f;
 
+	if (access(infile, F_OK) != 0)
+		ft_printexit(4, infile);
 	f = open(infile, O_RDONLY);
 	dup2(f, STDIN_FILENO);
 	close(f);
@@ -78,25 +76,21 @@ void	ft_infile(char *infile, int fd[2])
 	close(fd[WRITE]);
 }
 
-void	ft_finalin(int fd)
-{
-	dup2(fd, STDIN_FILENO);
-	close(fd);
-}
-
-void	ft_finalout(char *filename, int fd)
+void	ft_last(int fd[2], char *filename)
 {
 	int	file;
 
+	dup2(fd[READ], STDIN_FILENO);
+	close(fd[READ]);
 	unlink(filename);
 	file = open(filename, O_CREAT | O_WRONLY, 0777);
 	dup2(file, STDOUT_FILENO);
 	close(file);
-	close(fd);
+	close(fd[WRITE]);
 }
 
-void	ft_checkcmd(char *cmdpath)
+void	ft_checkcmd(char *cmdpath, char *cmd)
 {
 	if (access(cmdpath, F_OK) != 0)
-		ft_printerror();
+		ft_printexit(2, cmd);
 }
