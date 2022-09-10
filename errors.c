@@ -20,32 +20,32 @@
 void	ft_printexit(int n, char **string)
 {
 	if (n == 1)
-		ft_printf("Incorrect number of arguments. Exiting.\n");
+		perror("Incorrect number of arguments. Exiting");
 	else if (n == 2)
 	{
-		ft_printf("Command %s not found. Exiting.\n", string[0]);
+		perror("Command not found");
 		ft_specialfree(string);
 		exit(127);
 	}
 	else if (n == 3)
 	{
-		ft_printf("Error in creating child. Exiting.\n");
+		perror("Error in creating child. Exiting");
 		exit(3);
 	}
 	else if (n == 4)
-		ft_printf("File named \"%s\" not found. Exiting.\n", *string);
+		perror("File not found");
 	else if (n == 5)
 	{
-		ft_printf("You don't have permission to use this command.\n", string[0]);
+		perror("No permission to use command");
 		exit(126);
 	}
 	else if (n == 6)
-		ft_printf("Error in creating pipe. Exiting.\n");
+		perror("Error in creating pipe");
 	exit(1);
 }
 
 void	ft_printerror(void)
 {
-	ft_printf("Error in allocating memory. Exiting.\n");
+	perror("Error in allocating memory");
 	exit(7);
 }
