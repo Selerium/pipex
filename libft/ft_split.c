@@ -30,12 +30,11 @@ static int	ft_count(char const *s, char c)
 	count = 0;
 	while (i <= ft_strlen((char *) s))
 	{
-		
 		while (s[i] == c)
 			i++;
 		j = i++;
-		while ((s[i] != c || s[j] == '"') && 
-			s[i] != '\0' && (i - 1 == j || s[i - 1] != '"'))
+		while ((s[i] != c || s[j] == '"')
+			&& s[i] != '\0' && (i - 1 == j || s[i - 1] != '"'))
 			i++;
 		count++;
 		i++;

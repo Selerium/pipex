@@ -6,7 +6,7 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 21:52:22 by jadithya          #+#    #+#             */
-/*   Updated: 2022/09/10 15:48:33 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/09/10 16:12:20 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ char	*ft_findcmd(char *cmd, char **env)
 	path[ft_strlen(path) - 1] = '\0';
 	return (path);
 }
-
 
 void	ft_first(char *infile, int fd[2])
 {
