@@ -46,5 +46,5 @@ void	ft_printexit(int n, char *string)
 void	ft_printerror(void)
 {
 	ft_printf("Error in allocating memory. Exiting.\n");
-	exit(-1);
+	exit(7);
 }
