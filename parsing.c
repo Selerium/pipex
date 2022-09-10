@@ -6,7 +6,7 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 21:52:22 by jadithya          #+#    #+#             */
-/*   Updated: 2022/09/10 16:48:35 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/09/10 18:32:15 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	ft_first(char *infile, int fd[2])
 {
 	int	f;
 
-	if (access(infile, F_OK) != 0)
+	if (access(infile, F_OK | R_OK) != 0)
 	{
 		close(fd[READ]);
 		close(fd[WRITE]);
