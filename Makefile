@@ -6,7 +6,7 @@
 #    By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/02 22:13:13 by jadithya          #+#    #+#              #
-#    Updated: 2022/09/10 16:11:42 by jadithya         ###   ########.fr        #
+#    Updated: 2022/09/10 16:58:21 by jadithya         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,10 +37,10 @@ bonus:
 all: $(NAME)
 
 norm: 
-	norminette -R CheckForbiddenSourceHeader
+	norminette
 
 normpipex:
-	norminette -R CheckForbiddenSourceHeader pipex.c parsing.c errors.c wrappers.c pipex.h
+	norminette pipex.c parsing.c errors.c wrappers.c pipex.h
 
 clean:
 	rm -f $(OBJS)
