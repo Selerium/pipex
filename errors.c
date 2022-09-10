@@ -17,13 +17,14 @@
  * 
  * @param n error number
  */
-void	ft_printexit(int n, char *string)
+void	ft_printexit(int n, char **string)
 {
 	if (n == 1)
 		ft_printf("Incorrect number of arguments. Exiting.\n");
 	else if (n == 2)
 	{
-		ft_printf("Command %s not found. Exiting.\n", string);
+		ft_printf("Command %s not found. Exiting.\n", string[0]);
+		ft_specialfree(string);
 		exit(127);
 	}
 	else if (n == 3)
@@ -32,10 +33,10 @@ void	ft_printexit(int n, char *string)
 		exit(3);
 	}
 	else if (n == 4)
-		ft_printf("File named \"%s\" not found. Exiting.\n");
+		ft_printf("File named \"%s\" not found. Exiting.\n", *string);
 	else if (n == 5)
 	{
-		ft_printf("You don't have permission to use this command.\n", string);
+		ft_printf("You don't have permission to use this command.\n", string[0]);
 		exit(126);
 	}
 	else if (n == 6)

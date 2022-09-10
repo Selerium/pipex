@@ -12,6 +12,33 @@
 
 #include"pipex.h"
 
+void	ft_specialfree(char **string)
+{
+	int	i;
+
+	i = 0;
+	while (string[i])
+	{
+		free(string[i]);
+		i++;
+	}
+	free(string);
+}
+
+void	ft_free(char **cmd, char *cmdpath)
+{
+	int	i;
+
+	i = 0;
+	while (cmd[i])
+	{
+		free(cmd[i]);
+		i++;
+	}
+	free(cmd);
+	free(cmdpath);
+}
+
 /**
  * @brief a wrapper for the "fork()" function to check for errors in child
  * 			creation

@@ -6,7 +6,7 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 21:52:22 by jadithya          #+#    #+#             */
-/*   Updated: 2022/09/10 19:02:00 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/09/10 19:44:13 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ char	*ft_findcmd(char *cmd, char **env)
 	}
 	close(fd[WRITE]);
 	wait(NULL);
-	read(fd[READ], path, 30);
-	path[ft_strlen(path) - 1] = '\0';
+	if (read(fd[READ], path, 30) > 0)
+		path[ft_strlen(path) - 1] = '\0';
 	return (path);
 }
 
-void	ft_first(char *infile, int fd[2])
+void	ft_first(char *infile, int fd[2], char **cmd, char *cmdpath)
 {
 	int	f;
 
@@ -54,7 +54,8 @@ void	ft_first(char *infile, int fd[2])
 	{
 		close(fd[READ]);
 		close(fd[WRITE]);
-		ft_printexit(4, infile);
+		ft_free(cmd, cmdpath);
+		ft_printexit(4, &infile);
 	}
 	f = open(infile, O_RDONLY);
 	if (f == -1)
@@ -62,6 +63,7 @@ void	ft_first(char *infile, int fd[2])
 		close(fd[READ]);
 		close(fd[WRITE]);
 		ft_printf("Infile couldn't be opened. Exiting.\n");
+		ft_free(cmd, cmdpath);
 		exit(1);
 	}
 	dup2(f, STDIN_FILENO);
@@ -71,7 +73,7 @@ void	ft_first(char *infile, int fd[2])
 	close(fd[WRITE]);
 }
 
-void	ft_last(int fd[2], char *filename)
+void	ft_last(int fd[2], char *filename, char **cmd, char *cmdpath)
 {
 	int	file;
 
@@ -83,6 +85,7 @@ void	ft_last(int fd[2], char *filename)
 	{
 		close(fd[WRITE]);
 		ft_printf("Outfile couldn't be opened. Exiting.\n");
+		ft_free(cmd, cmdpath);
 		exit(1);
 	}
 	dup2(file, STDOUT_FILENO);
@@ -90,10 +93,13 @@ void	ft_last(int fd[2], char *filename)
 	close(fd[WRITE]);
 }
 
-void	ft_checkcmd(char *cmdpath, char *cmd)
+void	ft_checkcmd(char *cmdpath, char **cmd)
 {
-	if (access(cmdpath, F_OK) != 0)
+	if (access(cmdpath, F_OK | X_OK) != 0)
+	{
+		free(cmdpath);
 		ft_printexit(2, cmd);
-	if (access(cmdpath, X_OK) != 0)
-		ft_printexit(5, cmd);
+	}
+	// if (access(cmdpath, X_OK) != 0)
+	// 	ft_printexit(5, cmd);
 }
