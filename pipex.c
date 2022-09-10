@@ -6,7 +6,7 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 17:12:56 by jadithya          #+#    #+#             */
-/*   Updated: 2022/09/06 21:32:44 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/09/10 15:50:52 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,13 @@
 
 void	ft_wait(int p1, int p2, int fd[2])
 {
+	int	s2;
+
 	close(fd[READ]);
 	close(fd[WRITE]);
 	waitpid(p1, NULL, 0);
-	waitpid(p2, NULL, 0);
-}
-
-int	main(int argc, char **argv, char **env)
-{
-	int	fd[2];
-
-	if (argc != 5)
-		ft_printexit(1, NULL);
-	pipex(argc, argv, env, fd);
-	close(fd[READ]);
-	close(fd[WRITE]);
+	waitpid(p2, &s2, 0);
+	exit(WEXITSTATUS(s2));
 }
 
 void	pipex(int argc, char **argv, char **env, int fd[2])
@@ -38,7 +30,7 @@ void	pipex(int argc, char **argv, char **env, int fd[2])
 	char	**cmd;
 	char	*cmdpath;
 
-	pipe(fd);
+	ft_pipe(fd);
 	p1 = ft_fork();
 	if (p1 == 0)
 	{
@@ -58,4 +50,13 @@ void	pipex(int argc, char **argv, char **env, int fd[2])
 		execve(cmdpath, cmd, env);
 	}
 	ft_wait(p1, p2, fd);
+}
+
+int	main(int argc, char **argv, char **env)
+{
+	int	fd[2];
+
+	if (argc != 5)
+		ft_printexit(1, NULL);
+	pipex(argc, argv, env, fd);
 }

@@ -6,26 +6,11 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 21:52:22 by jadithya          #+#    #+#             */
-/*   Updated: 2022/09/06 14:40:42 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/09/10 15:48:33 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"pipex.h"
-
-/**
- * @brief a wrapper for the "fork()" function to check for errors in child
- * 			creation
- * @return pid_t which is the pid value of the process (0 for child, >0 for parent)
- */
-pid_t	ft_fork(void)
-{
-	pid_t	pid;
-
-	pid = fork();
-	if (pid == -1)
-		ft_printexit(3, NULL);
-	return (pid);
-}
 
 /**
  * @brief uses a forked process to run a sh command "where", returning the file
@@ -93,4 +78,6 @@ void	ft_checkcmd(char *cmdpath, char *cmd)
 {
 	if (access(cmdpath, F_OK) != 0)
 		ft_printexit(2, cmd);
+	if (access(cmdpath, X_OK) != 0)
+		ft_printexit(5, cmd);
 }
