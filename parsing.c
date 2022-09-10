@@ -6,7 +6,7 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 21:52:22 by jadithya          #+#    #+#             */
-/*   Updated: 2022/09/10 18:32:15 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/09/10 19:02:00 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,13 @@ void	ft_first(char *infile, int fd[2])
 		ft_printexit(4, infile);
 	}
 	f = open(infile, O_RDONLY);
+	if (f == -1)
+	{
+		close(fd[READ]);
+		close(fd[WRITE]);
+		ft_printf("Infile couldn't be opened. Exiting.\n");
+		exit(1);
+	}
 	dup2(f, STDIN_FILENO);
 	close(f);
 	close(fd[READ]);
