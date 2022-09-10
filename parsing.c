@@ -6,7 +6,7 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 21:52:22 by jadithya          #+#    #+#             */
-/*   Updated: 2022/09/10 16:12:20 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/09/10 16:48:35 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*ft_findcmd(char *cmd, char **env)
 	args[0] = "/usr/bin/which";
 	args[1] = cmd;
 	args[2] = NULL;
-	pipe(fd);
+	ft_pipe(fd);
 	pid = ft_fork();
 	if (pid == 0)
 	{
@@ -51,7 +51,11 @@ void	ft_first(char *infile, int fd[2])
 	int	f;
 
 	if (access(infile, F_OK) != 0)
+	{
+		close(fd[READ]);
+		close(fd[WRITE]);
 		ft_printexit(4, infile);
+	}
 	f = open(infile, O_RDONLY);
 	dup2(f, STDIN_FILENO);
 	close(f);
@@ -68,6 +72,12 @@ void	ft_last(int fd[2], char *filename)
 	close(fd[READ]);
 	unlink(filename);
 	file = open(filename, O_CREAT | O_WRONLY, 0777);
+	if (file == -1)
+	{
+		close(fd[WRITE]);
+		ft_printf("Outfile couldn't be opened. Exiting.\n");
+		exit(1);
+	}
 	dup2(file, STDOUT_FILENO);
 	close(file);
 	close(fd[WRITE]);

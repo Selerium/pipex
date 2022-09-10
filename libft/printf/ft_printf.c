@@ -6,7 +6,7 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:14:47 by jadithya          #+#    #+#             */
-/*   Updated: 2022/07/19 20:59:35 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/09/10 16:27:13 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static int	ft_actualprint(const char *s, int *i, char *flags, va_list ap)
 		ft_printunsint(va_arg(ap, unsigned int), flags, &count, &s[*i]);
 	else if (s[*i] == '%')
 	{
-		write(1, "%", 1);
+		write(2, "%", 1);
 		count++;
 	}
 	free(flags);
@@ -96,7 +96,7 @@ int	ft_printf(const char *s, ...)
 		}
 		else
 		{
-			write(1, &s[i], 1);
+			write(2, &s[i], 1);
 			count++;
 		}
 	}

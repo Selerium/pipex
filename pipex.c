@@ -6,7 +6,7 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 17:12:56 by jadithya          #+#    #+#             */
-/*   Updated: 2022/09/10 15:50:52 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/09/10 16:50:56 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ void	pipex(int argc, char **argv, char **env, int fd[2])
 	{
 		cmd = ft_split(argv[argc - 2], ' ');
 		cmdpath = ft_findcmd(cmd[0], env);
-		ft_checkcmd(cmdpath, cmd[0]);
 		ft_last(fd, argv[argc - 1]);
+		ft_checkcmd(cmdpath, cmd[0]);
 		execve(cmdpath, cmd, env);
 	}
 	ft_wait(p1, p2, fd);

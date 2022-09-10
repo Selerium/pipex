@@ -6,7 +6,7 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 22:28:40 by jadithya          #+#    #+#             */
-/*   Updated: 2022/07/07 15:53:15 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/09/10 16:26:38 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	ft_printstr(char *s, char *flags, int *count, char *add)
 			ft_printzeros(add, count, digits, flags);
 		if (digits > (int) ft_strlen(s))
 			digits = (int) ft_strlen(s);
-		write(1, s, digits);
+		write(2, s, digits);
 		(*count) += digits;
 		if (flags[0] == '1')
 			ft_printspace(add, count, *count);
