@@ -20,7 +20,7 @@
 void	ft_printexit(int n, char **string)
 {
 	if (n == 1)
-		perror("Incorrect number of arguments. Exiting");
+		ft_printf("Incorrect number of arguments. Exiting.\n");
 	else if (n == 2)
 	{
 		perror("Command not found");
