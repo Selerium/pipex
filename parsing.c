@@ -6,7 +6,7 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 21:52:22 by jadithya          #+#    #+#             */
-/*   Updated: 2022/09/10 19:44:13 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/09/16 13:54:53 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,14 @@ void	ft_last(int fd[2], char *filename, char **cmd, char *cmdpath)
 
 void	ft_checkcmd(char *cmdpath, char **cmd)
 {
-	if (access(cmdpath, F_OK | X_OK) != 0)
+	if (access(cmdpath, F_OK) != 0)
 	{
 		free(cmdpath);
 		ft_printexit(2, cmd);
 	}
-	// if (access(cmdpath, X_OK) != 0)
-	// 	ft_printexit(5, cmd);
+	if (access(cmdpath, X_OK) != 0)
+	{
+		free(cmdpath);
+		ft_printexit(5, cmd);
+	}
 }
