@@ -6,7 +6,7 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 21:52:22 by jadithya          #+#    #+#             */
-/*   Updated: 2022/09/16 13:54:53 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/09/17 01:16:36 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,13 @@ void	ft_last(int fd[2], char *filename, char **cmd, char *cmdpath)
 
 	dup2(fd[READ], STDIN_FILENO);
 	close(fd[READ]);
+	if (access(filename, W_OK) != 0)
+	{
+		close(fd[WRITE]);
+		ft_printf("Outfile couldn't be opened. Exiting.\n");
+		ft_free(cmd, cmdpath);
+		exit(1);
+	}
 	unlink(filename);
 	file = open(filename, O_CREAT | O_WRONLY, 0777);
 	if (file == -1)
@@ -103,6 +110,7 @@ void	ft_checkcmd(char *cmdpath, char **cmd)
 	if (access(cmdpath, X_OK) != 0)
 	{
 		free(cmdpath);
-		ft_printexit(5, cmd);
+		ft_specialfree(cmd);
+		ft_printexit(5, NULL);
 	}
 }
