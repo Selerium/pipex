@@ -6,7 +6,7 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 17:12:56 by jadithya          #+#    #+#             */
-/*   Updated: 2022/09/18 14:49:16 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/09/18 15:03:33 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	main(int argc, char **argv, char **env)
 
 	if (argc != 5)
 		ft_printexit(1, NULL);
-	if (!ft_isalpha(argv[2][0]) || !ft_isalpha(argv[3][0]))
+	if (!argv[2][0] || !argv[3][0])
 	{
 		ft_printf("Command cannot be an empty string. Exiting.\n");
 		exit(8);
