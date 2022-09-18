@@ -6,7 +6,7 @@
 #    By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/02 22:13:13 by jadithya          #+#    #+#              #
-#    Updated: 2022/09/10 16:58:21 by jadithya         ###   ########.fr        #
+#    Updated: 2022/09/18 12:07:08 by jadithya         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,11 +15,12 @@ NAME = pipex
 SRCS = pipex.c\
 		parsing.c\
 		errors.c\
-		wrappers.c
+		wrappers.c\
+		ft_findcmd.c
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g3
 
 OBJS = $(SRCS:.c=.o)
 
@@ -37,7 +38,7 @@ bonus:
 all: $(NAME)
 
 norm: 
-	norminette
+	/home/jadithya/.local/bin/norminette
 
 normpipex:
 	norminette pipex.c parsing.c errors.c wrappers.c pipex.h

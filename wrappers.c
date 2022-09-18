@@ -12,6 +12,16 @@
 
 #include"pipex.h"
 
+char	*ft_wrapjoin(char *str1, char *str2)
+{
+	char	*temp;
+
+	temp = str1;
+	str1 = ft_strjoin(str1, str2);
+	free(temp);
+	return (str1);
+}
+
 void	ft_specialfree(char **string)
 {
 	int	i;

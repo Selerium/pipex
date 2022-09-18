@@ -41,6 +41,8 @@ void	ft_printexit(int n, char **string)
 	}
 	else if (n == 6)
 		perror("Error in creating pipe");
+	else if (n == 7)
+		perror("PATH variable doesn't exist. Exiting");
 	exit(1);
 }
 

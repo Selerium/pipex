@@ -6,7 +6,7 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 16:35:21 by jadithya          #+#    #+#             */
-/*   Updated: 2022/06/24 00:39:27 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/09/17 17:11:29 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 		return (NULL);
 	while (i < len && i < ft_strlen((char *) big))
 	{
+		j = 0;
 		if (little[0] == big[i])
 		{
-			j = 0;
 			while ((little[j] == big[i + j]) && little[j] != '\0')
 				j++;
 			if (little[j] == '\0')
@@ -34,7 +34,7 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 		}
 		i++;
 	}
-	if (big[i] != '\0' && (i + j) <= len && (i + j) <= ft_strlen(big))
+	if (big[i] != '\0' && (i + j) <= len && (i + j) <= ft_strlen(big) && j)
 		return ((char *)(big + i));
 	return (NULL);
 }

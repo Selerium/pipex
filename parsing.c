@@ -6,45 +6,11 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 21:52:22 by jadithya          #+#    #+#             */
-/*   Updated: 2022/09/17 01:16:36 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/09/18 14:54:57 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"pipex.h"
-
-/**
- * @brief uses a forked process to run a sh command "where", returning the file
- * 			path of a command cmd given in
- * @param cmd command to search for
- * @param env environment variable
- * @param fd pipe for getting output of execve
- * @return char* which is the final path variable
- */
-char	*ft_findcmd(char *cmd, char **env)
-{
-	pid_t	pid;
-	int		fd[2];
-	char	*args[3];
-	char	*path;
-
-	path = (char *) ft_calloc (30, sizeof(char));
-	args[0] = "/usr/bin/which";
-	args[1] = cmd;
-	args[2] = NULL;
-	ft_pipe(fd);
-	pid = ft_fork();
-	if (pid == 0)
-	{
-		close(fd[READ]);
-		dup2(fd[WRITE], STDOUT_FILENO);
-		execve(args[0], args, env);
-	}
-	close(fd[WRITE]);
-	wait(NULL);
-	if (read(fd[READ], path, 30) > 0)
-		path[ft_strlen(path) - 1] = '\0';
-	return (path);
-}
 
 void	ft_first(char *infile, int fd[2], char **cmd, char *cmdpath)
 {
@@ -100,15 +66,20 @@ void	ft_last(int fd[2], char *filename, char **cmd, char *cmdpath)
 	close(fd[WRITE]);
 }
 
-void	ft_checkcmd(char *cmdpath, char **cmd)
+void	ft_checkcmd(char *cmdpath, char **cmd, int fd[2])
 {
-	if (access(cmdpath, F_OK) != 0)
+	if (!cmdpath || access(cmdpath, F_OK) != 0)
 	{
-		free(cmdpath);
+		close(fd[WRITE]);
+		close(fd[READ]);
+		if (cmdpath)
+			free(cmdpath);
 		ft_printexit(2, cmd);
 	}
 	if (access(cmdpath, X_OK) != 0)
 	{
+		close(fd[WRITE]);
+		close(fd[READ]);
 		free(cmdpath);
 		ft_specialfree(cmd);
 		ft_printexit(5, NULL);
