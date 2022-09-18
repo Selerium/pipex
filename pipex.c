@@ -6,7 +6,7 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 17:12:56 by jadithya          #+#    #+#             */
-/*   Updated: 2022/09/18 15:03:33 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/09/18 16:17:13 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	ft_wait(int p1, int p2, int fd[2])
 	close(fd[WRITE]);
 	waitpid(p1, NULL, 0);
 	waitpid(p2, &s2, 0);
-	exit(WEXITSTATUS(s2));
+	if (WIFEXITED(s2))
+		exit(WEXITSTATUS(s2));
 }
 
 void	pipex(int argc, char **argv, char **env, int fd[2])

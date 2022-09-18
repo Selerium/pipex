@@ -6,7 +6,7 @@
 #    By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/02 22:13:13 by jadithya          #+#    #+#              #
-#    Updated: 2022/09/18 12:07:08 by jadithya         ###   ########.fr        #
+#    Updated: 2022/09/18 16:13:33 by jadithya         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ norm:
 	/home/jadithya/.local/bin/norminette
 
 normpipex:
-	norminette pipex.c parsing.c errors.c wrappers.c pipex.h
+	/home/jadithya/.local/bin/norminette pipex.c parsing.c errors.c wrappers.c pipex.h
 
 clean:
 	rm -f $(OBJS)
