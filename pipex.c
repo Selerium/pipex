@@ -6,7 +6,7 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 17:12:56 by jadithya          #+#    #+#             */
-/*   Updated: 2022/09/18 16:17:13 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/09/20 12:28:50 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,13 @@ void	ft_wait(int p1, int p2, int fd[2])
 
 void	pipex(int argc, char **argv, char **env, int fd[2])
 {
-	int		p1;
-	int		p2;
+	int		p[2];
 	char	**cmd;
 	char	*cmdpath;
 
 	ft_pipe(fd);
-	p1 = ft_fork();
-	if (p1 == 0)
+	p[0] = ft_fork();
+	if (p[0] == 0)
 	{
 		cmd = ft_split(argv[2], ' ');
 		cmdpath = ft_findcmd(cmd[0], env);
@@ -41,8 +40,8 @@ void	pipex(int argc, char **argv, char **env, int fd[2])
 		ft_first(argv[1], fd, cmd, cmdpath);
 		execve(cmdpath, cmd, env);
 	}
-	p2 = ft_fork();
-	if (p2 == 0)
+	p[argc - 4] = ft_fork();
+	if (p[argc - 4] == 0)
 	{
 		cmd = ft_split(argv[argc - 2], ' ');
 		cmdpath = ft_findcmd(cmd[0], env);
@@ -50,19 +49,25 @@ void	pipex(int argc, char **argv, char **env, int fd[2])
 		ft_last(fd, argv[argc - 1], cmd, cmdpath);
 		execve(cmdpath, cmd, env);
 	}
-	ft_wait(p1, p2, fd);
+	ft_wait(p[0], p[1], fd);
 }
 
 int	main(int argc, char **argv, char **env)
 {
 	int	fd[2];
+	int	i;
 
-	if (argc != 5)
+	if (argc < 5)
 		ft_printexit(1, NULL);
-	if (!argv[2][0] || !argv[3][0])
+	i = 2;
+	while (i < argc)
 	{
-		ft_printf("Command cannot be an empty string. Exiting.\n");
-		exit(8);
+		if (!argv[i][0])
+		{
+			ft_printf("Command cannot be an empty string. Exiting.\n");
+			exit(8);
+		}
+		i++;
 	}
 	pipex(argc, argv, env, fd);
 	return (0);
