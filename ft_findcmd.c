@@ -46,6 +46,11 @@ char	*ft_findcmd(char *cmd, char **env)
 
 	i = 0;
 	flag = 0;
+	if (cmd[0] == '/')
+	{
+		path = ft_strdup(cmd);
+		return (path);
+	}
 	while (env[i] && !flag)
 	{
 		if (ft_strnstr(env[i], "PATH", 4) != NULL)
