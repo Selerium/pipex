@@ -6,7 +6,7 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 17:12:56 by jadithya          #+#    #+#             */
-/*   Updated: 2022/09/20 12:28:50 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/09/20 18:22:45 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	main(int argc, char **argv, char **env)
 	int	fd[2];
 	int	i;
 
-	if (argc < 5)
+	if (argc != 5)
 		ft_printexit(1, NULL);
 	i = 2;
 	while (i < argc)
