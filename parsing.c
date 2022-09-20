@@ -6,7 +6,7 @@
 /*   By: jadithya <jadithya@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 21:52:22 by jadithya          #+#    #+#             */
-/*   Updated: 2022/09/20 12:25:12 by jadithya         ###   ########.fr       */
+/*   Updated: 2022/09/20 13:11:32 by jadithya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_last(int fd[2], char *filename, char **cmd, char *cmdpath)
 {
 	int	file;
 
-	if (access(filename, W_OK) != 0)
+	if (access(filename, F_OK) == 0 && access(filename, W_OK) != 0)
 	{
 		close(fd[WRITE]);
 		close(fd[READ]);
